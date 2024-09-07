@@ -3,6 +3,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, classification_report
+import pickle
 
 def create_model(data):
     # Drop the diagnosis column from the data and set it as the target variable
@@ -43,7 +44,14 @@ def main():
 
     data = get_clean_data()
 
-    model = create_model(data)
+    model, scaler = create_model(data)
+
+    # Save the model and scaler to be used in the API
+    with open ('model/model.pkl', 'wb') as f:
+        pickle.dump(model, f)
+    with open('model/scaler.pkl', 'wb') as f:
+        pickle.dump(scaler, f)
+  
 
 
 
