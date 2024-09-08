@@ -1,4 +1,5 @@
 import streamlit as st
+from streamlit_extras.stylable_container import stylable_container
 import pickle
 import pandas as pd
 import plotly.graph_objects as go
@@ -115,51 +116,14 @@ def get_radar_chart(input_data):
       ],
       theta=categories,
       fill='toself',
-      name='Mean Value'
-    ))
-
-    fig.add_trace(go.Scatterpolar(
-      r=[
-          input_data['radius_se'], 
-          input_data['texture_se'],
-          input_data['perimeter_se'],
-          input_data['area_se'],
-          input_data['smoothness_se'],
-          input_data['compactness_se'],
-          input_data['concavity_se'],
-          input_data['concave points_se'],
-          input_data['symmetry_se'],
-          input_data['fractal_dimension_se']
-
-      ],
-      theta=categories,
-      fill='toself',
-      name='Standard Value'
-    ))
-
-    fig.add_trace(go.Scatterpolar(
-      r=[
-          input_data['radius_worst'], 
-          input_data['texture_worst'],
-          input_data['perimeter_worst'],
-          input_data['area_worst'],
-          input_data['smoothness_worst'],
-          input_data['compactness_worst'],
-          input_data['concavity_worst'],
-          input_data['concave points_worst'],
-          input_data['symmetry_worst'],
-          input_data['fractal_dimension_worst']
-
-      ],
-      theta=categories,
-      fill='toself',
-      name='Worst Value'
+      name='Patient Metrics' 
     ))
 
     fig.update_layout(
         polar=dict(
             radialaxis=dict(
                 visible=True,
+                showticklabels=False,
                 range=[0, 1]
             )),
         showlegend=True
@@ -177,18 +141,21 @@ def add_predictions(input_data):
     input_array_scaled = scaler.transform(input_array)
     
     prediction = model.predict(input_array_scaled)
-    
-    st.subheader("Cell cluster prediction")
-    st.write("The cell cluster is")
-    if(prediction[0] == 0):
-        st.write("Benign.")
-    else:
-        st.write("Malignant.")
 
-    st.write("Probability of being benign: ", model.predict_proba(input_array_scaled)[0][0])
-    st.write("Probability of being malignant: ", model.predict_proba(input_array_scaled)[0][1])
+     
+    if prediction[0] == 0:
+        outcome = "<span class='diagnosis benign'>Benign</span>"
+    else:
+        outcome = "<span class='diagnosis malignant'>Malignant</span>"
+
+
+    st.header("Prediction")
+    st.write(f"The cell cluster is: ", outcome, unsafe_allow_html=True)
     
-    st.write("This app can assist medical professionals in making a diagnosis, but should not be used as a substitute for a professional diagnosis.")
+    st.write("Benign Probability: ", "**{:.2f}%**".format(round(model.predict_proba(input_array_scaled)[0][0] * 100, 2)))
+    st.write("Malignant Probability: ", "**{:.2f}%**".format(round(model.predict_proba(input_array_scaled)[0][1] * 100, 2)))
+    
+    st.write("This app can assist professionals in making a diagnosis but should not be used as a substitute for an actual diagnosis.")
 
 def main():
     st.set_page_config(
@@ -201,17 +168,54 @@ def main():
     input_data = add_sidebar()
 
     with st.container():
-        st.title("Breast Cancer Diagnosis Prediction")
+        st.title("Breast Cancer Diagnosis")
         st.write("Please connect this app to your cytology lab to help diagnose breast cancer from your tissue sample. This app predicts using a machine learning model whether a breast mass is benign or malignant based on the measurements it receives from your cytosis lab. You can also update the measurements by hand using the sliders in the sidebar. ")
 
         col1, col2 = st.columns([4, 1])
 
         with col1:
             radar_chart = get_radar_chart(input_data)
-            st.plotly_chart(radar_chart)
+            st.plotly_chart(radar_chart, use_container_width=True, config={'staticPlot': True})
 
         with col2:
-            add_predictions(input_data)
+            with stylable_container(
+                key="prediction-container",
+                css_styles =["""
+                {
+                    background-color: #262730;
+                    padding: 1rem;
+                    border-radius: 0.5rem;
+                    word-wrap: break-word;
+                    overflow-wrap: break-word;
+                    white-space: normal;
+                    width: 100%;
+                }
+
+
+                """,
+                """
+                .diagnosis {
+                    color: #fff;
+                    padding: 0.2em 0.5em;
+                    border-radius: 0.5em;
+                }
+                """,
+                """
+                .diagnosis.benign {
+                    background-color: #4CAF50;
+                }
+                """,
+                """
+                .diagnosis.malignant {
+                    background-color: #FF4B4B;
+                }
+                """]
+            ):
+                add_predictions(input_data)
+
+            
+                
+            
 
 if __name__ == '__main__':
     main()
