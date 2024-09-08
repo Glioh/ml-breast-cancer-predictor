@@ -167,6 +167,10 @@ def get_radar_chart(input_data):
 
     return fig
 
+def add_predictions(input_data):
+    model = pickle.load(open("model/model.pkl", "rb"))
+
+    scaler = pickle.load(open("model/model.pkl", "rb"))
 def main():
     st.set_page_config(
         page_title="Breast Cancer Dashboard",
@@ -188,7 +192,7 @@ def main():
             st.plotly_chart(radar_chart)
 
         with col2:
-            st.write("This is column 2")
+            add_predictions()
 
 if __name__ == '__main__':
     main()
