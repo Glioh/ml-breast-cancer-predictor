@@ -6,23 +6,23 @@ An interactive dashboard for predicting breast cancer diagnosis using a machine 
 
 This project leverages a machine learning pipeline to classify breast masses as either benign or malignant based on various features from cytology reports. Using logistic regression, the model achieves predictions that aid in early diagnosis.
 
-### How to Use This Dashboard
+## How to Use This Dashboard
 
 **Install Dependencies**: Ensure all dependencies are installed, including Streamlit and scikit-learn.
 **Run the App**: Execute the app locally by running streamlit run app.py.
 **Interact with the Model**: Use the sidebar sliders to adjust cytology measurements, then view the model's prediction and probability values.
 
-### Data Preparation and Model Training
+## Data Preparation and Model Training
 
 1. **Data Preprocessing**: Unnecessary columns are dropped, and diagnosis labels are mapped as follows: **Malignant (M)** = 1, **Benign (B)** = 0.
 2. **Feature Scaling**: All input features are standardized to ensure uniform scale and improve model performance.
 3. **Model Training**: Logistic regression is applied to classify masses, with the model trained on 80% of the data and tested on the remaining 20% for accuracy.
 
-### Model Deployment and Prediction
+## Model Deployment and Prediction
 
 Using **Streamlit**, this dashboard allows users to input sample features and obtain predictions in real-time. It displays the probabilities for benign and malignant diagnoses alongside a radar chart to visualize input feature distributions.
 
-### Example Code
+## Example Code
 
 The model is trained as follows:
 
