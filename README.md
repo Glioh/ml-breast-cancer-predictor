@@ -8,9 +8,9 @@ This project leverages a machine learning pipeline to classify breast masses as 
 
 ## How to Use This Dashboard
 
-**Install Dependencies**: Ensure all dependencies are installed, including Streamlit and scikit-learn.
-**Run the App**: Execute the app locally by running streamlit run app.py.
-**Interact with the Model**: Use the sidebar sliders to adjust cytology measurements, then view the model's prediction and probability values.
+1. **Install Dependencies**: Ensure all dependencies are installed, including Streamlit and scikit-learn.
+3. **Run the App**: Execute the app locally by running streamlit run app.py.
+4. **Interact with the Model**: Use the sidebar sliders to adjust cytology measurements, then view the model's prediction and probability values.
 
 ## Data Preparation and Model Training
 
@@ -18,7 +18,7 @@ This project leverages a machine learning pipeline to classify breast masses as 
 2. **Feature Scaling**: All input features are standardized to ensure uniform scale and improve model performance.
 3. **Model Training**: Logistic regression is applied to classify masses, with the model trained on 80% of the data and tested on the remaining 20% for accuracy.
 
-## Model Deployment and Prediction
+### Model Deployment and Prediction
 
 Using **Streamlit**, this dashboard allows users to input sample features and obtain predictions in real-time. It displays the probabilities for benign and malignant diagnoses alongside a radar chart to visualize input feature distributions.
 
