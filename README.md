@@ -6,6 +6,12 @@ An interactive dashboard for predicting breast cancer diagnosis using a machine 
 
 This project leverages a machine learning pipeline to classify breast masses as either benign or malignant based on various features from cytology reports. Using logistic regression, the model achieves predictions that aid in early diagnosis.
 
+### How to Use This Dashboard
+
+**Install Dependencies**: Ensure all dependencies are installed, including Streamlit and scikit-learn.
+**Run the App**: Execute the app locally by running streamlit run app.py.
+**Interact with the Model**: Use the sidebar sliders to adjust cytology measurements, then view the model's prediction and probability values.
+
 ### Data Preparation and Model Training
 
 1. **Data Preprocessing**: Unnecessary columns are dropped, and diagnosis labels are mapped as follows: **Malignant (M)** = 1, **Benign (B)** = 0.
@@ -27,9 +33,12 @@ data = get_clean_data()
 # Train the logistic regression model
 model, scaler = create_model(data)
 
-# Save the model and scaler
-with open ('model/model.pkl', 'wb') as f:
-    pickle.dump(model, f)
-with open('model/scaler.pkl', 'wb') as f:
-    pickle.dump(scaler, f)
+# Snippet from Training Model
+x_train, x_test, y_train, y_test = train_test_split(
+        x, y, test_size=0.2, random_state=42
+        )
+    
+    # Train the model by fitting x and y train data set onto logistic model graph
+    model = LogisticRegression()
+    model.fit(x_train, y_train)
 ```
